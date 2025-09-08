@@ -12,19 +12,16 @@ def main():
         n, k = map(int, input().split())
         line = input().strip()
 
-        whites = line[:k].count("W")
-        best = whites
-
+        window = line[:k]
+        best = window.count("W")
         for i in range(k, n):
             if best == 0:
                 break
-            if line[i - k] == "W":
-                whites -= 1
-            if line[i] == "W":
-                whites += 1
-            best = min(best, whites)
+            window = line[i - k + 1 : i + 1]
+            best = min(best, window.count("W"))
 
         print(best)
+        print()
 
 
 if __name__ == "__main__":
