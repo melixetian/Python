@@ -24,7 +24,6 @@ def main():
                 whites += 1
             best = min(best, whites)
 
-        print()
         print(best)
 
 
