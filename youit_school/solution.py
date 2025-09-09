@@ -10,15 +10,20 @@ def main():
     t = int(input())
     for _ in range(t):
         n, k = map(int, input().split())
-        line = input().strip()
+        s = input().strip()
 
-        window = line[:k]
-        best = window.count("W")
+        whites = s[:k].count("W")
+        best = whites
+
         for i in range(k, n):
             if best == 0:
                 break
-            window = line[i - k + 1 : i + 1]
-            best = min(best, window.count("W"))
+            if s[i - k] == "W":
+                whites -= 1
+            if s[i] == "W":
+                whites += 1
+            if whites < best:
+                best = whites
 
         print(best)
         print()
