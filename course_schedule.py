@@ -38,6 +38,6 @@ def canFinish(numCourses: int, prerequisites: list[list[int]]) -> bool:
 
 
 numCourses = 2
-prerequisites = [[1,0],[0,1]]
+prerequisites = [[1, 0], [0, 1]]
 
 print(canFinish(numCourses, prerequisites))
