@@ -38,4 +38,4 @@ if __name__ == "__main__":
         if i == check - 1:
             check *= 10
             plotter(distr, i + 1)
-            print(f"{i+1} is done")
+            print(f"{i + 1} is done")
