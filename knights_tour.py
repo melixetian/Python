@@ -91,6 +91,18 @@ def knights_tour(start_row, start_col, board, move_number):
 
 def print_board(board):
     """Выводит шахматную доску с номерами ходов."""
+    # ANSI escape коды для цветов
+    RESET = "\033[0m"
+    BLACK_BG = "\033[40m"  # Черный фон
+    WHITE_BG = "\033[47m"  # Белый фон
+    BLACK_TEXT = "\033[30m"  # Черный текст
+    WHITE_TEXT = "\033[37m"  # Белый текст
+    GRAY = "\033[90m"  # Серый цвет для сетки
+
+    def is_dark_square(row, col):
+        """Определяет, является ли клетка темной (черной)."""
+        return (row + col) % 2 == 1
+
     print("\nШахматная доска с номерами ходов коня:")
 
     # Верхний заголовок с буквами
@@ -100,37 +112,49 @@ def print_board(board):
     print()
 
     # Верхняя граница
-    print("   ┌", end="")
+    print(f"{GRAY}   ┌", end="")
     for col in range(8):
         print("───", end="")
         if col < 7:
             print("┬", end="")
-    print("┐")
+    print(f"┐{RESET}")
 
     # Строки с данными
     for row in range(8):
-        print(f"{8 - row:2} │", end="")
+        print(f"{GRAY}{8 - row:2} │{RESET}", end="")
         for col in range(8):
-            print(f"{board[row][col]:3}", end="")
-            print("│", end="")
-        print(f" {8 - row}")
+            value = board[row][col]
+            is_dark = is_dark_square(row, col)
+
+            # Выбираем цвет фона и текста в зависимости от цвета клетки
+            if is_dark:
+                bg_color = BLACK_BG
+                text_color = WHITE_TEXT
+            else:
+                bg_color = WHITE_BG
+                text_color = BLACK_TEXT
+
+            # Выводим значение с цветом
+            print(f"{bg_color}{text_color}{value:3}{RESET}", end="")
+            print(f"{GRAY}│{RESET}", end="")
+        print(f"{GRAY} {8 - row}{RESET}")
 
         # Горизонтальный разделитель (кроме последней строки)
         if row < 7:
-            print("   ├", end="")
+            print(f"{GRAY}   ├", end="")
             for col in range(8):
                 print("───", end="")
                 if col < 7:
                     print("┼", end="")
-            print("┤")
+            print(f"┤{RESET}")
 
     # Нижняя граница
-    print("   └", end="")
+    print(f"{GRAY}   └", end="")
     for col in range(8):
         print("───", end="")
         if col < 7:
             print("┴", end="")
-    print("┘")
+    print(f"┘{RESET}")
 
     # Нижний заголовок с буквами
     print("   ", end="")
