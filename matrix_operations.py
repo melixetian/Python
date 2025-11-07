@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 
-""""
+"""
 Сложение матриц
 """
 
@@ -10,7 +10,7 @@ matrB = [[None] * m] * n
 
 for i in range(n):
     matrA[i] = [int(j) for j in input().split()]
-input()
+
 for i in range(n):
     matrB[i] = [int(j) for j in input().split()]
 
