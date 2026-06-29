@@ -14,7 +14,7 @@
 
 y0, x0 = list[str](input("Введите начальную позицию коня: "))
 x = 8 - int(x0)
-y = ord(y0) - ord("a")
+y = ord(y0.lower()) - ord("a")
 
 for i in range(8):
     for j in range(8):
