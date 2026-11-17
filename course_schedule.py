@@ -1,43 +1,58 @@
 """
 LC 207. Course Schedule
+https://leetcode.com/problems/course-schedule/
 
-There are a total of numCourses courses you have to take, labeled from 0 to numCourses - 1.
-You are given an array prerequisites where prerequisites[i] = [ai, bi]
-indicates that you must take course bi first if you want to take course ai.
+Дано numCourses курсов с номерами от 0 до numCourses - 1 и список зависимостей
+prerequisites, где prerequisites[i] = [a, b] означает: чтобы пройти курс a,
+сначала нужно пройти курс b (ребро b -> a).
 
-For example, the pair [0, 1], indicates that to take course 0 you have to first take course 1.
-Return true if you can finish all courses. Otherwise, return false.
+Вернуть True, если можно пройти все курсы, иначе False.
+
+Примеры:
+    numCourses = 2, prerequisites = [[1, 0]] -> True
+    numCourses = 2, prerequisites = [[1, 0], [0, 1]] -> False
+
+Ограничения:
+    1 <= numCourses <= 2000
+    0 <= len(prerequisites) <= 5000
+    prerequisites[i].length == 2
+    0 <= a, b < numCourses
+    Все пары [a, b] уникальны.
 """
 
 
-def canFinish(numCourses: int, prerequisites: list[list[int]]) -> bool:
-    g = [[] for _ in range(numCourses)]
-    for course, prereq in prerequisites:
-        g[prereq].append(course)
+class Solution:
+    def canFinish(self, numCourses: int, prerequisites: list[list[int]]) -> bool:
+        """Поиск цикла в ориентированном графе (DFS в 3 цвета): O(V + E) времени и памяти."""
+        graph: list[list[int]] = [[] for _ in range(numCourses)]
+        for course, prereq in prerequisites:
+            graph[prereq].append(course)
 
-    state = [0] * numCourses
+        # 0 — не посещён, 1 — в текущем пути обхода, 2 — полностью проверен.
+        state = [0] * numCourses
 
-    def dfs(u: int) -> bool:
-        if state[u] == 1:
-            return False
-        if state[u] == 2:
-            return True
-        state[u] = 1
-        for v in g[u]:
-            if not dfs(v):
+        def dfs(course: int) -> bool:
+            if state[course] == 1:
                 return False
-        state[u] = 2
+            if state[course] == 2:
+                return True
+
+            state[course] = 1
+            for next_course in graph[course]:
+                if not dfs(next_course):
+                    return False
+
+            state[course] = 2
+            return True
+
+        for course in range(numCourses):
+            if state[course] == 0 and not dfs(course):
+                return False
+
         return True
 
-    for i in range(numCourses):
-        if state[i] == 0:
-            if not dfs(i):
-                return False
 
-    return True
-
-
-numCourses = 2
-prerequisites = [[1, 0], [0, 1]]
-
-print(canFinish(numCourses, prerequisites))
+if __name__ == "__main__":
+    solution = Solution()
+    print(solution.canFinish(2, [[1, 0]]))  # True
+    print(solution.canFinish(2, [[1, 0], [0, 1]]))  # False
