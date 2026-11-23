@@ -1,6 +1,7 @@
-#!/usr/bin/env python3
-
 """
+LC 13. Roman to Integer
+https://leetcode.com/problems/roman-to-integer/
+
 В римской системе счисления для обозначения чисел
 используются следующие символы:
 I = 1
@@ -19,14 +20,15 @@ IV, IX, XL, XC, CD и CM, соответственно.
 """
 
 
-def roman_to_decimal(inp):
-    dic = {"I": 1, "V": 5, "X": 10, "L": 50, "C": 100, "D": 500, "M": 1000}
-    rom = 0
-    while inp:
-        if len(inp) == 1 or dic[inp[0]] >= dic[inp[1]]:
-            rom += dic[inp[0]]
-            inp = inp[1:]
-        else:
-            rom += dic[inp[1]] - dic[inp[0]]
-            inp = inp[2:]
-    return rom
+class Solution:
+    def romanToInt(self, s: str) -> int:
+        values = {"I": 1, "V": 5, "X": 10, "L": 50, "C": 100, "D": 500, "M": 1000}
+        total = 0
+        previous = 0
+
+        for symbol in reversed(s):
+            value = values[symbol]
+            total += -value if value < previous else value
+            previous = value
+
+        return total

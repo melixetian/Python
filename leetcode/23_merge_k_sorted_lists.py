@@ -3,15 +3,18 @@ LC 23. Merge k Sorted Lists
 https://leetcode.com/problems/merge-k-sorted-lists/
 """
 
+from typing import TYPE_CHECKING, Optional
 
-class ListNode:
-    def __init__(self, val=0, next=None):
-        self.val = val
-        self.next = next
+if TYPE_CHECKING:
+    # При запуске решения ListNode предоставляет LeetCode.
+    class ListNode:
+        def __init__(self, val: int = 0, next: Optional["ListNode"] = None) -> None:
+            self.val = val
+            self.next = next
 
 
 class Solution:
-    def mergeKLists(self, lists: list[ListNode | None]) -> ListNode | None:
+    def mergeKLists(self, lists: list[Optional["ListNode"]]) -> Optional["ListNode"]:
         if not lists:
             return None
 
@@ -26,7 +29,7 @@ class Solution:
             lists = merged_lists
         return lists[0]
 
-    def mergeLists(self, list1: ListNode | None, list2: ListNode | None) -> ListNode | None:
+    def mergeLists(self, list1: Optional["ListNode"], list2: Optional["ListNode"]) -> Optional["ListNode"]:
         if not list1:
             return list2
         if not list2:

@@ -149,17 +149,3 @@ class LFUCache:
         new_node = Node(key, value)
         self.cache[key] = new_node
         self.history.insert(new_node)
-
-
-if __name__ == "__main__":
-    lfu = LFUCache(2)
-    lfu.put(1, 1)
-    lfu.put(2, 2)
-    print(lfu.get(1))  # 1
-    lfu.put(3, 3)
-    print(lfu.get(2))  # -1
-    print(lfu.get(3))  # 3
-    lfu.put(4, 4)
-    print(lfu.get(1))  # -1
-    print(lfu.get(3))  # 3
-    print(lfu.get(4))  # 4

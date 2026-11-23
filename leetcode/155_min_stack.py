@@ -30,14 +30,3 @@ class MinStack:
 
     def getMin(self) -> int:
         return self.min_values[-1]
-
-
-if __name__ == "__main__":
-    stack = MinStack()
-    stack.push(-2)
-    stack.push(0)
-    stack.push(-3)
-    print(stack.getMin())  # -3
-    stack.pop()
-    print(stack.top())  # 0
-    print(stack.getMin())  # -2

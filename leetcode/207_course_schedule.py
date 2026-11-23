@@ -20,39 +20,26 @@ prerequisites, где prerequisites[i] = [a, b] означает: чтобы п�
     Все пары [a, b] уникальны.
 """
 
+from collections import deque
+
 
 class Solution:
     def canFinish(self, numCourses: int, prerequisites: list[list[int]]) -> bool:
-        """Поиск цикла в ориентированном графе (DFS в 3 цвета): O(V + E) времени и памяти."""
+        """Топологическая сортировка алгоритмом Кана за O(V + E)."""
         graph: list[list[int]] = [[] for _ in range(numCourses)]
+        in_degree = [0] * numCourses
         for course, prereq in prerequisites:
             graph[prereq].append(course)
+            in_degree[course] += 1
 
-        # 0 — не посещён, 1 — в текущем пути обхода, 2 — полностью проверен.
-        state = [0] * numCourses
-
-        def dfs(course: int) -> bool:
-            if state[course] == 1:
-                return False
-            if state[course] == 2:
-                return True
-
-            state[course] = 1
+        ready = deque(course for course, degree in enumerate(in_degree) if degree == 0)
+        completed = 0
+        while ready:
+            course = ready.popleft()
+            completed += 1
             for next_course in graph[course]:
-                if not dfs(next_course):
-                    return False
+                in_degree[next_course] -= 1
+                if in_degree[next_course] == 0:
+                    ready.append(next_course)
 
-            state[course] = 2
-            return True
-
-        for course in range(numCourses):
-            if state[course] == 0 and not dfs(course):
-                return False
-
-        return True
-
-
-if __name__ == "__main__":
-    solution = Solution()
-    print(solution.canFinish(2, [[1, 0]]))  # True
-    print(solution.canFinish(2, [[1, 0], [0, 1]]))  # False
+        return completed == numCourses

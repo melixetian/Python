@@ -23,42 +23,26 @@ prerequisites, где prerequisites[i] = [a, b] означает: чтобы п�
     Все пары [a, b] уникальны.
 """
 
+from collections import deque
+
 
 class Solution:
     def findOrder(self, numCourses: int, prerequisites: list[list[int]]) -> list[int]:
-        """Топологическая сортировка через DFS (post-order + разворот): O(V + E) времени и памяти."""
+        """Топологическая сортировка алгоритмом Кана за O(V + E)."""
         graph: list[list[int]] = [[] for _ in range(numCourses)]
+        in_degree = [0] * numCourses
         for course, prereq in prerequisites:
             graph[prereq].append(course)
+            in_degree[course] += 1
 
-        # 0 — не посещён, 1 — в текущем пути обхода, 2 — полностью проверен.
-        state = [0] * numCourses
-        order: list[int] = []
-
-        def dfs(course: int) -> bool:
-            if state[course] == 1:
-                return False
-            if state[course] == 2:
-                return True
-
-            state[course] = 1
-            for next_course in graph[course]:
-                if not dfs(next_course):
-                    return False
-
-            state[course] = 2
+        ready = deque(course for course, degree in enumerate(in_degree) if degree == 0)
+        order = []
+        while ready:
+            course = ready.popleft()
             order.append(course)
-            return True
+            for next_course in graph[course]:
+                in_degree[next_course] -= 1
+                if in_degree[next_course] == 0:
+                    ready.append(next_course)
 
-        for course in range(numCourses):
-            if state[course] == 0 and not dfs(course):
-                return []
-
-        order.reverse()
-        return order
-
-
-if __name__ == "__main__":
-    solution = Solution()
-    print(solution.findOrder(4, [[1, 0], [2, 0], [3, 1], [3, 2]]))  # [0, 2, 1, 3]
-    print(solution.findOrder(2, [[1, 0], [0, 1]]))  # []
+        return order if len(order) == numCourses else []

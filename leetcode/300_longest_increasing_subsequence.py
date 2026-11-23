@@ -1,22 +1,21 @@
-#!/usr/bin/env python3
-
 """
-Дан массив из  N целых чисел arr.
-Найдите длину максимальной возрастающей подпоследовательности в этом массиве.
+LC 300. Longest Increasing Subsequence
+https://leetcode.com/problems/longest-increasing-subsequence/
+
+Найдите длину максимальной строго возрастающей подпоследовательности.
 """
 
-
-def longest_increase(arr):
-    dp = [1] * len(arr)
-    for i in range(1, len(arr)):
-        for j in range(i):
-            if arr[j] < arr[i]:
-                print(i, j, dp[i], dp[j], arr[i], arr[j])
-                dp[i] = max(dp[i], dp[j] + 1)
-                print(dp)
-    return max(dp)
+from bisect import bisect_left
 
 
-if __name__ == "__main__":
-    arr = list(map(int, input().split()))
-    print(longest_increase(arr))
+class Solution:
+    def lengthOfLIS(self, nums: list[int]) -> int:
+        # tails[i] — минимальный последний элемент подпоследовательности длины i + 1.
+        tails = []
+        for num in nums:
+            index = bisect_left(tails, num)
+            if index == len(tails):
+                tails.append(num)
+            else:
+                tails[index] = num
+        return len(tails)

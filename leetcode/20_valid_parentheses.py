@@ -1,28 +1,20 @@
-#!/usr/bin/env python3
-
 """
-Программа проверяющая правильность расстановки скобок в строке
+LC 20. Valid Parentheses
+https://leetcode.com/problems/valid-parentheses/
 
+Проверить правильность расстановки круглых, квадратных и фигурных скобок.
 """
 
 
-def brackets(brac):
-    stack = []
-    for el in brac:
-        if el in ["[", "(", "{", "<"]:
-            stack.append(el)
-        elif el in ["]", ")", "}", ">"]:
-            if len(stack) > 0:
-                top = stack.pop()
-                if top + el not in ["[]", "()", "{}", "<>"]:
-                    return False
-            else:
+class Solution:
+    def isValid(self, s: str) -> bool:
+        pairs = {")": "(", "]": "[", "}": "{"}
+        stack = []
+        for bracket in s:
+            opening = pairs.get(bracket)
+            if opening is None:
+                stack.append(bracket)
+            elif not stack or stack.pop() != opening:
                 return False
 
-    return len(stack) == 0
-
-
-if brackets(input()):
-    print("Success")
-else:
-    print("Fail")
+        return not stack
