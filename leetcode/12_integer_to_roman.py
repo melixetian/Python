@@ -15,9 +15,7 @@ M = 1000
 записываются как вычитание из большего числа меньшего:
 IV, IX, XL, XC, CD и CM, соответственно.
 
-Написать функции для перевода чисел:
-- из римской системы в десятичную
-- из десятичной системы в римскую
+Написать функцию для перевода числа из десятичной системы в римскую.
 """
 
 
@@ -53,16 +51,3 @@ def decimal_to_roman(inp):
     for i in range(len(inp)):
         lst.append(get_num(inp[i], i))
     return "".join(lst)
-
-
-def roman_to_decimal(inp):
-    dic = {"I": 1, "V": 5, "X": 10, "L": 50, "C": 100, "D": 500, "M": 1000}
-    rom = 0
-    while inp:
-        if len(inp) == 1 or dic[inp[0]] >= dic[inp[1]]:
-            rom += dic[inp[0]]
-            inp = inp[1:]
-        else:
-            rom += dic[inp[1]] - dic[inp[0]]
-            inp = inp[2:]
-    return rom
