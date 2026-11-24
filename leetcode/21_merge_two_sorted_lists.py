@@ -3,18 +3,15 @@ LC 21. Merge Two Sorted Lists
 https://leetcode.com/problems/merge-two-sorted-lists/
 """
 
-from typing import TYPE_CHECKING, Optional
 
-if TYPE_CHECKING:
-    # При запуске решения ListNode предоставляет LeetCode.
-    class ListNode:
-        def __init__(self, val: int = 0, next: Optional["ListNode"] = None) -> None:
-            self.val = val
-            self.next = next
+class ListNode:
+    def __init__(self, val: int = 0, next: "ListNode | None" = None) -> None:
+        self.val = val
+        self.next = next
 
 
 class Solution:
-    def mergeTwoLists(self, list1: Optional["ListNode"], list2: Optional["ListNode"]) -> Optional["ListNode"]:
+    def mergeTwoLists(self, list1: ListNode | None, list2: ListNode | None) -> ListNode | None:
         if not list1:
             return list2
         if not list2:

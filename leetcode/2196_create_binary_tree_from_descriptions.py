@@ -10,24 +10,21 @@ https://leetcode.com/problems/create-binary-tree-from-descriptions/
 Время — O(n) в среднем, память — O(n), где n — число описаний.
 """
 
-from typing import TYPE_CHECKING, Optional
 
-if TYPE_CHECKING:
-    # При запуске решения TreeNode предоставляет LeetCode.
-    class TreeNode:
-        def __init__(
-            self,
-            val: int = 0,
-            left: Optional["TreeNode"] = None,
-            right: Optional["TreeNode"] = None,
-        ) -> None:
-            self.val = val
-            self.left = left
-            self.right = right
+class TreeNode:
+    def __init__(
+        self,
+        val: int = 0,
+        left: "TreeNode | None" = None,
+        right: "TreeNode | None" = None,
+    ) -> None:
+        self.val = val
+        self.left = left
+        self.right = right
 
 
 class Solution:
-    def createBinaryTree(self, descriptions: list[list[int]]) -> Optional["TreeNode"]:
+    def createBinaryTree(self, descriptions: list[list[int]]) -> TreeNode | None:
         nodes = {}
         children = set()
 

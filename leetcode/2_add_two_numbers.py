@@ -3,18 +3,15 @@ LC 2. Add Two Numbers
 https://leetcode.com/problems/add-two-numbers/
 """
 
-from typing import TYPE_CHECKING, Optional
 
-if TYPE_CHECKING:
-    # При запуске решения ListNode предоставляет LeetCode.
-    class ListNode:
-        def __init__(self, val: int = 0, next: Optional["ListNode"] = None) -> None:
-            self.val = val
-            self.next = next
+class ListNode:
+    def __init__(self, val: int = 0, next: "ListNode | None" = None) -> None:
+        self.val = val
+        self.next = next
 
 
 class Solution:
-    def addTwoNumbers(self, l1: "ListNode", l2: "ListNode") -> "ListNode":
+    def addTwoNumbers(self, l1: ListNode, l2: ListNode) -> ListNode:
         dummyHead = ListNode(0)
         tail = dummyHead
         carry = 0

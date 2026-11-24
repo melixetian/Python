@@ -30,4 +30,4 @@ class Solution:
             if r2 - l2 > end - start:
                 start, end = l2, r2
 
-        return s[start:end + 1]
+        return s[start : end + 1]  # noqa E203
