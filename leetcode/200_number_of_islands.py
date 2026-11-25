@@ -12,28 +12,25 @@ class Solution:
             return 0
 
         rows, cols = len(grid), len(grid[0])
-        visited = set()
         islands = 0
 
         def bfs(r, c):
             queue = deque()
-            visited.add((r, c))
             queue.append((r, c))
-            directions = [[1, 0], [-1, 0], [0, 1], [0, -1]]
+            grid[r][c] = "0"
 
+            directions = [[1, 0], [-1, 0], [0, 1], [0, -1]]
             while queue:
                 row, col = queue.popleft()
                 for dr, dc in directions:
                     r, c = row + dr, col + dc
-                    if 0 <= r < rows and 0 <= c < cols and grid[r][c] == "1" and (r, c) not in visited:
-                        visited.add((r, c))
+                    if 0 <= r < rows and 0 <= c < cols and grid[r][c] == "1":
                         queue.append((r, c))
+                        grid[r][c] = "0"
 
         for i in range(rows):
             for j in range(cols):
-                if grid[i][j] == "0":
-                    continue
-                if (i, j) not in visited:
+                if grid[i][j] == "1":
                     bfs(i, j)
                     islands += 1
 
